@@ -6,15 +6,15 @@ namespace backend.Domain.Value_Objects
 {
     public class Appointment
     {
-        public Appointment(DateTime appointmentDate, Pacient pacient, AppointmentType appointmentType)
+        public Appointment(DateTime appointmentDate, Patient patient, AppointmentType appointmentType)
         {
             AppointmentDate = appointmentDate;
-            Pacient = pacient;
+            Patient = patient;
             AppointmentType = appointmentType;
         }
 
         public DateTime AppointmentDate { get; private set; }
-        public Pacient Pacient { get; private set; }
+        public Patient Patient { get; private set; }
         public AppointmentType AppointmentType { get; private set; }
     }
 }
