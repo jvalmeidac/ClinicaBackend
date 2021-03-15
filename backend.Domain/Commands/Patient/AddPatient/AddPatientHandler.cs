@@ -9,11 +9,11 @@ namespace backend.Domain.Commands.Patient.AddPatient
     public class AddPatientHandler : Notifiable, IRequestHandler<AddPatientRequest, Response>
     {
         //Injeção de Dependência
-        private readonly IPatienteRepository _patienteRepository;
+        private readonly IPatientRepository _patientRepository;
 
-        public AddPatientHandler(IPatienteRepository pacienteRepository)
+        public AddPatientHandler(IPatientRepository patientRepository)
         {
-            _patienteRepository = pacienteRepository;
+            _patientRepository = patientRepository;
         }
 
         public async Task<Response> Handle(AddPatientRequest request, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ namespace backend.Domain.Commands.Patient.AddPatient
             }
 
             //Verifica se o paciente já está cadastrado
-            if (_patienteRepository.Exists(x => x.Email == request.Email || 
+            if (_patientRepository.Exists(x => x.Email == request.Email || 
                 x.CPF == request.CPF || x.CNS == request.CNS))
             {
                 AddNotification("Paciente", "Paciente já cadastrado");
@@ -34,19 +34,20 @@ namespace backend.Domain.Commands.Patient.AddPatient
             }
 
             //Instancia o paciente e verifica se existe algum dado inválido
-            Entities.Patient pacient = new(request.FirstName, request.LastName,
+            Entities.Patient patient = new(request.FirstName, request.LastName,
                 request.Email, request.Password, request.Phone, request.BirthDate, request.CPF, request.CNS);
-            AddNotifications(pacient);
+            AddNotifications(patient);
 
             if (IsInvalid())
             {
                 return new Response(this);
             }
 
-            //Tenta inserir os dados no banco e recebe a resposta da ação
-            pacient = _patienteRepository.Add(pacient);
+            //Insere os dados no banco
+            patient = _patientRepository.Add(patient);
 
-            var response = new Response(this, pacient);
+            //Cria o objeto da resposta
+            var response = new Response(this, patient);
 
             //Retorna a resposta
             return await Task.FromResult(response);

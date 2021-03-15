@@ -3,7 +3,7 @@ using backend.Domain.Interfaces.Repositories.Base;
 
 namespace backend.Domain.Interfaces.Repositories
 {
-    public interface IPatienteRepository : IRepositoryBase<Patient>
+    public interface IPatientRepository : IRepositoryBase<Patient>
     {
     }
 }
