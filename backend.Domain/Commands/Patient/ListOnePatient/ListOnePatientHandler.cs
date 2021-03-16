@@ -21,7 +21,7 @@ namespace backend.Domain.Commands.Patient.ListOnePatient
             //Verifica se a requisição é válida
             if (request == null)
             {
-                AddNotification("Request", "ID inválido!");
+                AddNotification("Request", "A requisição é inválida!");
                 return new Response(this);
             }
 
@@ -34,7 +34,7 @@ namespace backend.Domain.Commands.Patient.ListOnePatient
 
             //Busca o paciente pelo ID
             Entities.Patient patient 
-                = _patientRepository.GetOne(x => x.Id == request.Id);
+                = _patientRepository.GetOne(request.Id);
 
             //Cria o objeto da resposta
             var response = new Response(this, patient);

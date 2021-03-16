@@ -21,7 +21,7 @@ namespace backend.Domain.Commands.Patient.RemovePatient
             //Verifica se a requisição é válida
             if (request == null)
             {
-                AddNotification("Request", "Informe o ID do paciente!");
+                AddNotification("Request", "A requisição é inválida!");
                 return new Response(this);
             }
 

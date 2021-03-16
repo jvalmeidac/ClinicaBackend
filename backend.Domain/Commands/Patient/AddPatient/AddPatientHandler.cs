@@ -21,13 +21,13 @@ namespace backend.Domain.Commands.Patient.AddPatient
             //Verifica se a requisição é válida
             if (request == null)
             {
-                AddNotification("Request", "Informe os dados do paciente!");
+                AddNotification("Request", "A requisição é inválida!");
                 return new Response(this);
             }
 
             //Verifica se o paciente já está cadastrado
             if (_patientRepository.Exists(x => x.Email == request.Email || 
-                x.CPF == request.CPF || x.CNS == request.CNS))
+                x.CPF == request.CPF || x.RG == request.RG))
             {
                 AddNotification("Paciente", "Paciente já cadastrado");
                 return new Response(this);
@@ -35,7 +35,7 @@ namespace backend.Domain.Commands.Patient.AddPatient
 
             //Instancia o paciente e verifica se existe algum dado inválido
             Entities.Patient patient = new(request.FirstName, request.LastName,
-                request.Email, request.Password, request.Phone, request.BirthDate, request.CPF, request.CNS);
+                request.Email, request.Password, request.Phone, request.BirthDate, request.CPF, request.RG);
             AddNotifications(patient);
 
             if (IsInvalid())
@@ -44,7 +44,7 @@ namespace backend.Domain.Commands.Patient.AddPatient
             }
 
             //Insere os dados no banco
-            patient = _patientRepository.Add(patient);
+            _patientRepository.Add(patient);
 
             //Cria o objeto da resposta
             var response = new Response(this, patient);
