@@ -25,6 +25,11 @@ namespace backend.Domain.Commands.Patient.ListAllPatients
                 return new Response(this);
             }
 
+            if (IsInvalid())
+            {
+                return new Response(this);
+            }
+
             //Lista todos os pacientes
             IEnumerable<Entities.Patient> patients = _patientRepository.GetAll();
 

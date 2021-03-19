@@ -32,6 +32,11 @@ namespace backend.Domain.Commands.Patient.ListOnePatient
                 return new Response(this);
             }
 
+            if (IsInvalid())
+            {
+                return new Response(this);
+            }
+
             //Busca o paciente pelo ID
             Entities.Patient patient 
                 = _patientRepository.GetOne(request.Id);

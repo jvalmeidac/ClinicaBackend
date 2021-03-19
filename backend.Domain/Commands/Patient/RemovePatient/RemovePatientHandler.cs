@@ -32,6 +32,11 @@ namespace backend.Domain.Commands.Patient.RemovePatient
                 return new Response(this);
             }
 
+            if (IsInvalid())
+            {
+                return new Response(this);
+            }
+
             //Remove o paciente do banco
             _patientRepository.Remove(request.Id);
 
