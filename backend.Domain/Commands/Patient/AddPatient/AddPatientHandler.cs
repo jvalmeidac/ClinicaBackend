@@ -26,8 +26,7 @@ namespace backend.Domain.Commands.Patient.AddPatient
             }
 
             //Verifica se o paciente já está cadastrado
-            if (_patientRepository.Exists(x => x.Email == request.Email || 
-                x.CPF == request.CPF || x.RG == request.RG))
+            if (_patientRepository.Exists(request.Email, request.CPF, request.RG))
             {
                 AddNotification("Paciente", "Paciente já cadastrado");
                 return new Response(this);

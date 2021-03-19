@@ -26,7 +26,7 @@ namespace backend.Domain.Commands.Patient.RemovePatient
             }
 
             //Verifica se o paciente informado existe no banco
-            if(!_patientRepository.Exists(x => x.Id == request.Id))
+            if(!_patientRepository.Exists(request.Id))
             {
                 AddNotification("Paciente Inexistente", "O paciente informado não existe!");
                 return new Response(this);

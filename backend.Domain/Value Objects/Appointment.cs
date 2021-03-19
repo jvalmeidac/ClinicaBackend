@@ -14,6 +14,8 @@ namespace backend.Domain.Value_Objects
         }
 
         public DateTime AppointmentDate { get; private set; }
+        public Guid PatientId { get; private set; }
+
         public Patient Patient { get; private set; }
         public AppointmentType AppointmentType { get; private set; }
     }

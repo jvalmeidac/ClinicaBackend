@@ -12,6 +12,7 @@ namespace backend.Domain.Interfaces.Repositories.Base
         T Edit(T entity);
         void Remove(Guid id);
 
-        bool Exists(Func<T, bool> where);
+        bool Exists(Guid id);
+        bool Exists(string email, string cpf, string rg);
     }
 }

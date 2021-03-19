@@ -58,7 +58,15 @@ namespace backend.Infra.Repositories
 
         public bool Exists(Guid id)
         {
-            string sql = "SELECT COUNT(1) FROM projetotcc.patients WHERE Id=" + where;
+            string sql = "SELECT COUNT(1) FROM projetotcc.patients WHERE Id=" + id;
+            var exists = _session.Connection.ExecuteScalar<bool>(sql);
+
+            return exists;
+        }
+
+        public bool Exists(string email, string cpf, string rg)
+        {
+            string sql = "SELECT COUNT(1) FROM projetotcc.patients WHERE Email = @email OR CPF = @cpf OR RG = @RG" + new { email, cpf, rg };
             var exists = _session.Connection.ExecuteScalar<bool>(sql);
 
             return exists;

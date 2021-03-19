@@ -23,7 +23,7 @@ namespace backend.Domain.Commands.Patient.EditPatient
                 return new Response(this);
             }
 
-            if (!_patientRepository.Exists(x => x.Id == request.Id))
+            if (!_patientRepository.Exists(request.Id))
             {
                 AddNotification("Paciente inexistente", "O paciente informado não foi encontrado!");
                 return new Response(this);
