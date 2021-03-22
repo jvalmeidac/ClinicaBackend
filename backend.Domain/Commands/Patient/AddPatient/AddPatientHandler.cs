@@ -1,4 +1,5 @@
 ﻿using backend.Domain.Interfaces.Repositories;
+using backend.Domain.Interfaces.Repositories.Base;
 using MediatR;
 using prmToolkit.NotificationPattern;
 using System.Threading;
@@ -10,10 +11,13 @@ namespace backend.Domain.Commands.Patient.AddPatient
     {
         //Injeção de Dependência
         private readonly IPatientRepository _patientRepository;
+        private readonly IUnityOfWork _unityOfWork;
 
-        public AddPatientHandler(IPatientRepository patientRepository)
+        public AddPatientHandler(IPatientRepository patientRepository,
+            IUnityOfWork unityOfWork)
         {
             _patientRepository = patientRepository;
+            _unityOfWork = unityOfWork;
         }
 
         public async Task<Response> Handle(AddPatientRequest request, CancellationToken cancellationToken)
@@ -43,7 +47,9 @@ namespace backend.Domain.Commands.Patient.AddPatient
             }
 
             //Insere os dados no banco
+            _unityOfWork.BeginTransaction();
             _patientRepository.Add(patient);
+            _unityOfWork.Commit();
 
             //Cria o objeto da resposta
             var response = new Response(this, patient);

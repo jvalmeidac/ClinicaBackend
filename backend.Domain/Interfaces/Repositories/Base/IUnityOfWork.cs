@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace backend.Infra.Repositories.Base
+namespace backend.Domain.Interfaces.Repositories.Base
 {
     public interface IUnityOfWork : IDisposable
     {
