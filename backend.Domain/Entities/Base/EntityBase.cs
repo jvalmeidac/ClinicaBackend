@@ -7,11 +7,11 @@ namespace backend.Domain.Entities.Base
     {
         public EntityBase()
         {
-            Id = Guid.NewGuid();
+            Id = Guid.NewGuid().ToString();
             CreatedAt = DateTime.Now;
         }
 
-        public Guid Id { get; private set; }
+        public string Id { get; private set; }
         public DateTime CreatedAt { get; set; }
     }
 }
