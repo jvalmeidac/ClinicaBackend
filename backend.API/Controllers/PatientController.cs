@@ -2,6 +2,7 @@
 using backend.Domain.Commands.Patient.EditPatient;
 using backend.Domain.Commands.Patient.ListAllPatients;
 using backend.Domain.Commands.Patient.ListOnePatient;
+using backend.Domain.Commands.Patient.RemovePatient;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,7 +15,7 @@ namespace backend.API.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator _mediator; 
 
         public PatientController(IMediator mediator)
         {
@@ -55,7 +56,7 @@ namespace backend.API.Controllers
         {
             try
             {
-                var request = new ListOnePatientRequest(id);
+                ListOnePatientRequest request = new(id);
                 var result = await _mediator.Send(request, CancellationToken.None);
                 return Ok(result);
             }
@@ -75,6 +76,23 @@ namespace backend.API.Controllers
                 var result = await _mediator.Send(request, CancellationToken.None);
 
                 return Ok(request);
+            }
+            catch(Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpDelete("{id:Guid}")]
+        public async Task<ActionResult> RemovePatient(Guid id)
+        {
+            try
+            {
+                RemovePatientRequest request = new(id);
+                var response = await _mediator.Send(request, CancellationToken.None);
+
+                return NoContent();
+
             }
             catch(Exception e)
             {

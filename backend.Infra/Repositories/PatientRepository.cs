@@ -28,7 +28,7 @@ namespace backend.Infra.Repositories
         {
             string sql = "UPDATE patients SET FirstName = @FirstName, LastName = @LastName, " +
                 "Email = @Email, Password = @Password, " +
-                "Phone = @Phone, BirthDate = @BirthDate, CPF = @CPF, RG = @RG WHERE Id = " + entity.Id;
+                $"Phone = @Phone, BirthDate = @BirthDate, CPF = @CPF, RG = @RG WHERE Id = '{entity.Id}'";
             _session.Connection.Execute(sql, entity, _session.Transaction);
 
             return entity;
@@ -44,7 +44,7 @@ namespace backend.Infra.Repositories
 
         public Patient GetOne(Guid id)
         {
-            string sql = "SELECT * FROM patients WHERE Id =" + id;
+            string sql = $"SELECT * FROM patients WHERE Id = '{id}'";
             Patient patient = _session.Connection.Query<Patient>(sql).FirstOrDefault();
 
             return patient;
@@ -52,13 +52,13 @@ namespace backend.Infra.Repositories
 
         public void Remove(Guid id)
         {
-            string sql = "DELETE FROM patients WHERE Id =" + id;
+            string sql = $"DELETE FROM patients WHERE Id = '{id}'";
             _session.Connection.Execute(sql);
         }
 
         public bool Exists(Guid id)
         {
-            string sql = $"SELECT COUNT(1) FROM patients WHERE Id = " + id;
+            string sql = $"SELECT COUNT(1) FROM patients WHERE Id = '{id}'";
             var exists = _session.Connection.ExecuteScalar<bool>(sql);
 
             return exists;

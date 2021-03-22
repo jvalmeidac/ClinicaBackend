@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace backend.Domain.Commands.Patient.RemovePatient
 {
-    public class RemovePatientHandler : Notifiable, IRequestHandler<RequestBase, Response>
+    public class RemovePatientHandler : Notifiable, IRequestHandler<RemovePatientRequest, Response>
     {
         private readonly IPatientRepository _patientRepository;
 
@@ -16,7 +16,7 @@ namespace backend.Domain.Commands.Patient.RemovePatient
             _patientRepository = patientRepository;
         }
 
-        public async Task<Response> Handle(RequestBase request, CancellationToken cancellationToken)
+        public async Task<Response> Handle(RemovePatientRequest request, CancellationToken cancellationToken)
         {
             //Verifica se a requisição é válida
             if (request == null)
