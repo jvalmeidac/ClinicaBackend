@@ -17,7 +17,7 @@ namespace backend.Domain.Entities
             Email = email;
             Password = password;
             Phone = phone;
-            BirthDate = birthDate;
+            BirthDate = birthDate.Date;
             CPF = cpf;
             RG = rg;
 

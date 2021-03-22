@@ -8,10 +8,10 @@ namespace backend.Domain.Entities.Base
         public EntityBase()
         {
             Id = Guid.NewGuid();
-            CreateAt = DateTime.Now;
+            CreatedAt = DateTime.Now;
         }
 
         public Guid Id { get; private set; }
-        public DateTime CreateAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

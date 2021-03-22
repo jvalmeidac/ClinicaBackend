@@ -1,4 +1,6 @@
-﻿namespace backend.Infra.Repositories.Base
+﻿using backend.Domain.Interfaces.Repositories.Base;
+
+namespace backend.Infra.Repositories.Base
 {
     public class UnityOfWork : IUnityOfWork
     {
