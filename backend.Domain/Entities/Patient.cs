@@ -1,6 +1,5 @@
 ﻿using backend.Domain.Entities.Base;
 using backend.Domain.Extensions;
-using backend.Domain.Value_Objects;
 using prmToolkit.NotificationPattern;
 using System;
 using System.Collections.Generic;
@@ -50,7 +49,7 @@ namespace backend.Domain.Entities
         public string CPF { get; private set; }
         public string RG { get; private set; }
 
-        public ICollection<Appointment> Appointments { get; set; }
+        public List<Appointment> Appointments { get; set; }
 
         public void EditPatient(string firstName, string lastName, string email, 
             string password, string phone, DateTime birthDate, string cpf, string rg)
