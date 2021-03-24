@@ -5,5 +5,6 @@ namespace backend.Domain.Interfaces.Repositories
 {
     public interface IPatientRepository : IRepositoryBase<Patient>
     {
+        Patient Login(string email, string password);
     }
 }

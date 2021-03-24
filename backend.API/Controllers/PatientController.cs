@@ -1,11 +1,19 @@
-﻿using backend.Domain.Commands.Patient.AddPatient;
+﻿using backend.API.Security;
+using backend.Domain.Commands.Patient.AddPatient;
+using backend.Domain.Commands.Patient.AuthenticatePatient;
 using backend.Domain.Commands.Patient.EditPatient;
 using backend.Domain.Commands.Patient.ListAllPatients;
 using backend.Domain.Commands.Patient.ListOnePatient;
 using backend.Domain.Commands.Patient.RemovePatient;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,7 +23,7 @@ namespace backend.API.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        private readonly IMediator _mediator; 
+        private readonly IMediator _mediator;
 
         public PatientController(IMediator mediator)
         {
@@ -28,9 +36,9 @@ namespace backend.API.Controllers
             try
             {
                 var result = await _mediator.Send(request, CancellationToken.None);
-                return Created("",new { result });
+                return Created("", new { result });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Conflict(e.Message);
             }
@@ -67,7 +75,7 @@ namespace backend.API.Controllers
         }
 
         [HttpPut("{id:Guid}")]
-        public async Task<ActionResult> EditPatient(Guid id, 
+        public async Task<ActionResult> EditPatient(Guid id,
             [FromBody] EditPatientRequest request)
         {
             try
@@ -77,7 +85,7 @@ namespace backend.API.Controllers
 
                 return Ok(request);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return NotFound(e.Message);
             }
@@ -94,9 +102,85 @@ namespace backend.API.Controllers
                 return NoContent();
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return NotFound(e.Message);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("/auth")]
+        public async Task<ActionResult> AuthenticatePatient(
+            [FromBody] AuthenticatePatientRequest request,
+            [FromServices] SigningConfigurations signingConfigurations,
+            [FromServices] TokenConfigurations tokenConfigurations)
+        {
+            try
+            {
+                var authenticatedResponse = await _mediator.Send(request, CancellationToken.None);
+
+                if (authenticatedResponse.Authenticated == true)
+                {
+                    var response =
+                        GenerateToken(authenticatedResponse, signingConfigurations, tokenConfigurations);
+
+                    return Ok(response);
+                }
+
+                return Ok(authenticatedResponse);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        private object GenerateToken(
+            AuthenticatePatientResponse response,
+            SigningConfigurations signingConfigurations,
+            TokenConfigurations tokenConfigurations)
+        {
+            if (response.Authenticated == true)
+            {
+                ClaimsIdentity identity = new(
+                    new GenericIdentity(response.Id.ToString(), "Id"),
+                    new[]
+                    {
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+                        new Claim("Paciente", JsonConvert.SerializeObject(response))
+                    }
+                );
+
+                DateTime criationDate = DateTime.Now;
+                DateTime expirationDate =
+                    criationDate + TimeSpan.FromSeconds(tokenConfigurations.Seconds);
+
+                var handler = new JwtSecurityTokenHandler();
+                var securityToken = handler.CreateToken(new SecurityTokenDescriptor
+                {
+                    Issuer = tokenConfigurations.Issuer,
+                    Audience = tokenConfigurations.Audience,
+                    SigningCredentials = signingConfigurations.SigningCredentials,
+                    Subject = identity,
+                    NotBefore = criationDate,
+                    Expires = expirationDate
+                });
+                var token = handler.WriteToken(securityToken);
+
+                return new
+                {
+                    authenticated = true,
+                    created = criationDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    expiration = expirationDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    accessToken = token,
+                    message = "OK",
+                    firstName = response.FirstName
+                };
+            }
+            else
+            {
+                return response;
             }
         }
     }

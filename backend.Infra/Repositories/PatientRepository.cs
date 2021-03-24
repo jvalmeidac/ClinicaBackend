@@ -56,6 +56,14 @@ namespace backend.Infra.Repositories
             _session.Connection.Execute(sql);
         }
 
+        public Patient Login(string email, string password)
+        {
+            string sql = $"SELECT * FROM patients WHERE Email = '{email}' AND Password = '{password}'";
+            var patient = _session.Connection.Query<Patient>(sql).FirstOrDefault();
+
+            return patient;
+        }
+
         public bool Exists(Guid id)
         {
             string sql = $"SELECT COUNT(1) FROM patients WHERE Id = '{id}'";
