@@ -26,11 +26,3 @@ jobs:
 
     - name: dotnet publish
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'agendamentotcc'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_097da31fec694c3585bf6fab91a41d15 }}
-        package: ${{env.DOTNET_ROOT}}/myapp 
