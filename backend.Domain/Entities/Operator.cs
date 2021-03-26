@@ -1,8 +1,6 @@
-﻿using backend.Domain.Entities.Base;
-
-namespace backend.Domain.Entities
+﻿namespace backend.Domain.Entities
 {
-    public class Operator : EntityBase
+    public class Operator
     {
         //public Operator(string firstName, string lastName, string email, string password)
         //    : base(firstName, lastName, email, password)

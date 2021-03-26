@@ -34,12 +34,12 @@ namespace backend.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Dependencies Injection
+            //Injeção de dependência
             services.AddScoped<DbSession>();
             services.AddScoped<IUnityOfWork, UnityOfWork>();
             services.AddTransient<IPatientRepository, PatientRepository>();
 
-            //JWT Configurations
+            //Configuração JWT
             var signingConfigurations = new SigningConfigurations();
             services.AddSingleton(signingConfigurations);
 
@@ -90,7 +90,8 @@ namespace backend.API
                     .RequireAuthenticatedUser().Build();
 
                 config.Filters.Add(new AuthorizeFilter(policy));
-            });
+            }).AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling 
+                = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
             {
@@ -107,6 +108,14 @@ namespace backend.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "backend.API v1"));
             }
+
+            //Permissão CORS
+            app.UseCors(x => {
+                x.AllowAnyHeader();
+                x.AllowAnyMethod();
+                x.AllowAnyOrigin();
+            });
+
 
             app.UseHttpsRedirection();
 

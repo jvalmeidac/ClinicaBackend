@@ -12,7 +12,7 @@ namespace backend.Domain.Commands.Patient.AuthenticatePatient
         {
             return new AuthenticatePatientResponse()
             {
-                Id = Guid.Parse(patient.Id),
+                Id = Guid.Parse(patient.PatientId),
                 FirstName = patient.FirstName,
                 Authenticated = true
             };

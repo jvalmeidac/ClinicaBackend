@@ -1,22 +1,25 @@
-﻿using backend.Domain.Entities.Base;
-using System;
+﻿using System;
 
 namespace backend.Domain.Entities
 {
-    public class Appointment : EntityBase
+    public class Appointment
     {
-        public Appointment(DateTime schedule, Guid patientId)
+        public Appointment(DateTime schedule, Guid idPatient)
         {
+            AppointmentId = Guid.NewGuid().ToString();
             Schedule = schedule;
             Description = null;
             Completed = false;
-            PatientId = patientId;
+            PatientId = idPatient;
         }
 
-        public DateTime Schedule { get; set; }
-        public string Description { get; set; }
-        public bool Completed { get; set; }
-        public Guid PatientId { get; set; }
+        public Appointment() { }
+
+        public string AppointmentId { get; private set; }
+        public DateTime Schedule { get; private set; }
+        public string Description { get; private set; }
+        public bool Completed { get; private set; }
+        public Guid PatientId { get; private set; }
 
         public Patient Patient { get; set; }
         public Operator Operator { get; set; }

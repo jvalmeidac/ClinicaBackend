@@ -30,6 +30,7 @@ namespace backend.API.Controllers
             _mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> AddPatient([FromBody] AddPatientRequest request)
         {
@@ -44,6 +45,7 @@ namespace backend.API.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult> GetPatients()
         {
@@ -59,6 +61,7 @@ namespace backend.API.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("{id:Guid}")]
         public async Task<ActionResult> GetPatient(Guid id)
         {
@@ -110,7 +113,7 @@ namespace backend.API.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("/auth")]
+        [Route("auth")]
         public async Task<ActionResult> AuthenticatePatient(
             [FromBody] AuthenticatePatientRequest request,
             [FromServices] SigningConfigurations signingConfigurations,

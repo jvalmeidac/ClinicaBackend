@@ -12,7 +12,7 @@ namespace backend.Infra.Repositories.Base
         public DbSession()
         {
             Connection = new MySqlConnection(
-                    "Server=projetotcc.csep8uv6hcgw.sa-east-1.rds.amazonaws.com;Database=projetotcc;Uid=admin;Pwd=r4ieqspFYfneYT0KF2cK;"
+                    "Server=projetotcc.csep8uv6hcgw.sa-east-1.rds.amazonaws.com;Database=projetotcc;Uid=admin;Pwd=r4ieqspFYfneYT0KF2cK; convert zero datetime=True;"
                 );
             Connection.Open();
         }

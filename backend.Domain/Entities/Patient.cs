@@ -1,16 +1,16 @@
-﻿using backend.Domain.Entities.Base;
-using backend.Domain.Extensions;
+﻿using backend.Domain.Extensions;
 using prmToolkit.NotificationPattern;
 using System;
 using System.Collections.Generic;
 
 namespace backend.Domain.Entities
 {
-    public class Patient : EntityBase
+    public class Patient : Notifiable
     {
         public Patient(string firstName, string lastName, string email, 
             string password, string phone, DateTime birthDate, string cpf, string rg)
         {
+            PatientId = Guid.NewGuid().ToString();
             FirstName = firstName;
             LastName = lastName;
             Email = email;
@@ -19,6 +19,7 @@ namespace backend.Domain.Entities
             BirthDate = birthDate.Date;
             CPF = cpf;
             RG = rg;
+            CreatedAt = DateTime.Now;
 
             if (!string.IsNullOrWhiteSpace(Password))
             {
@@ -35,11 +36,12 @@ namespace backend.Domain.Entities
                 .IfNotRange(x => x.RG.Length, 8, 13, "O RG não possui os caracteres adequados!");
         }
 
-        protected Patient()
+        public Patient()
         {
 
         }
 
+        public string PatientId { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string Email { get; private set; }
@@ -48,6 +50,7 @@ namespace backend.Domain.Entities
         public DateTime BirthDate { get; private set; }
         public string CPF { get; private set; }
         public string RG { get; private set; }
+        public DateTime CreatedAt { get; private set; }
 
         public List<Appointment> Appointments { get; set; }
 

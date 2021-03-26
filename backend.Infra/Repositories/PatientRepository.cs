@@ -2,6 +2,7 @@
 using backend.Domain.Interfaces.Repositories;
 using backend.Infra.Repositories.Base;
 using Dapper;
+using Slapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace backend.Infra.Repositories
         {
             string sql = "UPDATE patients SET FirstName = @FirstName, LastName = @LastName, " +
                 "Email = @Email, Password = @Password, " +
-                $"Phone = @Phone, BirthDate = @BirthDate, CPF = @CPF, RG = @RG WHERE Id = '{entity.Id}'";
+                $"Phone = @Phone, BirthDate = @BirthDate, CPF = @CPF, RG = @RG WHERE PatientId = '{entity.PatientId}'";
             _session.Connection.Execute(sql, entity, _session.Transaction);
 
             return entity;
@@ -36,23 +37,64 @@ namespace backend.Infra.Repositories
 
         public IEnumerable<Patient> GetAll()
         {
-            string sql = "SELECT * FROM patients";
-            var patients = _session.Connection.Query<Patient>(sql);
+            string sql = "SELECT p.PatientId," +
+                            "p.FirstName," +
+                            "p.LastName," +
+                            "p.Email," +
+                            "p.CPF," +
+                            "p.RG," +
+                            "p.Phone," +
+                            "p.BirthDate," +
+                            "p.CreatedAt," +
+                            "a.AppointmentId as Appointments_AppointmentId," +
+                            "a.Schedule as Appointments_Schedule," +
+                            "a.PatientId as Appointments_PatientId," +
+                            "a.Completed as Appointments_Completed," +
+                            "a.Description as Appointments_Description" +
+                            "\nFROM patients p" +
+                            "\nINNER JOIN appointments a ON a.PatientId = p.PatientId";
+            var data = _session.Connection.Query<dynamic>(sql);
+
+            AutoMapper.Configuration.AddIdentifier(typeof(Patient), "PatientId");
+            AutoMapper.Configuration.AddIdentifier(typeof(Appointment), "AppointmentId");
+            List<Patient> patients =
+                AutoMapper.MapDynamic<Patient>(data).ToList();
 
             return patients;
         }
 
         public Patient GetOne(Guid id)
         {
-            string sql = $"SELECT * FROM patients WHERE Id = '{id}'";
-            Patient patient = _session.Connection.Query<Patient>(sql).FirstOrDefault();
+            string sql = "SELECT p.PatientId," +
+                            "p.FirstName," +
+                            "p.LastName," +
+                            "p.Email," +
+                            "p.CPF," +
+                            "p.RG," +
+                            "p.Phone," +
+                            "p.BirthDate," +
+                            "p.CreatedAt," +
+                            "a.AppointmentId as Appointments_AppointmentId," +
+                            "a.Schedule as Appointments_Schedule," +
+                            "a.PatientId as Appointments_PatientId," +
+                            "a.Completed as Appointments_Completed," +
+                            "a.Description as Appointments_Description" +
+                            "\nFROM patients p" +
+                            "\nINNER JOIN appointments a ON a.PatientId = p.PatientId" +
+                            $"\nWHERE p.PatientId = '{id}'";
+            var data = _session.Connection.Query<dynamic>(sql).FirstOrDefault();
+
+            AutoMapper.Configuration.AddIdentifier(typeof(Patient), "PatientId");
+            AutoMapper.Configuration.AddIdentifier(typeof(Appointment), "AppointmentId");
+
+            Patient patient = AutoMapper.Map<Patient>(data);
 
             return patient;
         }
 
         public void Remove(Guid id)
         {
-            string sql = $"DELETE FROM patients WHERE Id = '{id}'";
+            string sql = $"DELETE FROM patients WHERE PatientId = '{id}'";
             _session.Connection.Execute(sql);
         }
 
@@ -66,7 +108,7 @@ namespace backend.Infra.Repositories
 
         public bool Exists(Guid id)
         {
-            string sql = $"SELECT COUNT(1) FROM patients WHERE Id = '{id}'";
+            string sql = $"SELECT COUNT(1) FROM patients WHERE PatientId = '{id}'";
             var exists = _session.Connection.ExecuteScalar<bool>(sql);
 
             return exists;
