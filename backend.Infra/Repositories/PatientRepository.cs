@@ -20,7 +20,7 @@ namespace backend.Infra.Repositories
 
         public void Add(Patient entity)
         {
-            string sql = "INSERT INTO patients VALUES(@Id, @FirstName, @LastName," +
+            string sql = "INSERT INTO patients VALUES(@PatientId, @FirstName, @LastName," +
                 " @Email, @Password, @Phone, @BirthDate, @CPF, @RG, @CreatedAt)";
             _session.Connection.Execute(sql, entity, _session.Transaction);
         }

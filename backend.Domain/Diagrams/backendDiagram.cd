@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="backend.Domain.Entities.Operator">
-    <Position X="3.75" Y="0.75" Width="1.5" />
+    <Position X="0.75" Y="4.75" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
@@ -10,47 +10,31 @@
       <FileName>Entities\Operator.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="backend.Domain.Entities.Pacient">
-    <Position X="0.5" Y="3.5" Width="1.5" />
+  <Class Name="backend.Domain.Entities.Patient">
+    <Position X="0.5" Y="0.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
-    <AssociationLine Name="Appointments" Type="backend.Domain.Value_Objects.Appointment">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="2.091" Y="2.298" />
-      </MemberNameLabel>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAASAQCAAAAAAAAAAIAAAAAA=</HashCode>
-      <FileName>Entities\Pacient.cs</FileName>
+      <HashCode>AAAAAEIAASAAAAAAACAAAASEQAAAAAACAAAAIAAAAAg=</HashCode>
+      <FileName>Entities\Patient.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="Appointments" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="backend.Domain.Entities.Base.EntityBase">
-    <Position X="0.5" Y="0.75" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+  <Class Name="backend.Domain.Entities.Appointment">
+    <Position X="3.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAEAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAg=</HashCode>
-      <FileName>Entities\Base\EntityBase.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="backend.Domain.Value_Objects.Appointment">
-    <Position X="5.75" Y="0.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAACgA=</HashCode>
-      <FileName>Value Objects\Appointment.cs</FileName>
+      <HashCode>AAAAAAAAAQAgAAIAAAAAAQAAAEAAQAAAAAAAAAAAKAA=</HashCode>
+      <FileName>Entities\Appointment.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="AppointmentType" />
-      <Property Name="Pacient" />
+      <Property Name="Patient" />
     </ShowAsAssociation>
   </Class>
   <Enum Name="backend.Domain.Enums.AppointmentType">
-    <Position X="8.75" Y="0.75" Width="1.5" />
+    <Position X="8.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAAAAAgAEAAAAAAAAAAAAAAACAAAAAAAAAAAAAARAAA=</HashCode>
       <FileName>Enums\AppointmentType.cs</FileName>
