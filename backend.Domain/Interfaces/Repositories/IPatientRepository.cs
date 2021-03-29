@@ -2,7 +2,6 @@
 using backend.Domain.Interfaces.Repositories.Base;
 using backend.Domain.Pagination;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace backend.Domain.Interfaces.Repositories
 {

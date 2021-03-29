@@ -1,15 +1,12 @@
 ﻿using backend.Domain.Entities;
 using backend.Domain.Interfaces.Repositories;
-using backend.Domain.Interfaces.Repositories.Base;
 using backend.Domain.Pagination;
 using backend.Infra.Repositories.Base;
 using Dapper;
 using Slapper;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace backend.Infra.Repositories
 {
