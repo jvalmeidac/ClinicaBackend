@@ -7,7 +7,7 @@ namespace backend.Domain.Interfaces.Repositories.Base
     public interface IRepositoryBase<T>
         where T : class
     {
-        IEnumerable<T> GetAll(PageParameters pageParameters);
+        List<T> GetAll(PageParameters pageParameters);
         T GetOne(Guid id);
         void Add(T entity);
         T Edit(T entity);

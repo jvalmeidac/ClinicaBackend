@@ -21,12 +21,5 @@ namespace backend.Domain.Pagination
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             AddRange(items);
         }
-
-        public static PagedList<T> GetPagedList(IQueryable<T> source, int pageNumber, int pageSize)
-        {
-            var count = source.Count();
-            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-            return new PagedList<T>(items, count, pageNumber, pageSize);
-        }
     }
 }

@@ -36,7 +36,7 @@ namespace backend.Infra.Repositories
             return entity;
         }
 
-        public IEnumerable<Patient> GetAll(PageParameters pageParameters)
+        public List<Patient> GetAll(PageParameters pageParameters)
         {
             string sql = "SELECT p.PatientId," +
                             "p.FirstName," +
@@ -124,6 +124,13 @@ namespace backend.Infra.Repositories
             return exists;
         }
 
+        public int GetPatientsCount()
+        {
+            string sql = "SELECT COUNT(*) FROM patients";
+            int count = _session.Connection.ExecuteScalar<int>(sql);
+
+            return count;
+        }
         
     }
 }
