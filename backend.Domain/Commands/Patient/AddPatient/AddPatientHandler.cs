@@ -2,7 +2,6 @@
 using backend.Domain.Interfaces.Repositories.Base;
 using MediatR;
 using prmToolkit.NotificationPattern;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,7 +22,6 @@ namespace backend.Domain.Commands.Patient.AddPatient
 
         public async Task<Response> Handle(AddPatientRequest request, CancellationToken cancellationToken)
         {
-
             //Verifica se a requisição é válida
             if (request == null)
             {

@@ -4,7 +4,6 @@ using backend.Domain.Interfaces.Repositories.Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,27 +28,20 @@ namespace backend.Tests.Commands.PatientCommandsTest
         [TestMethod]
         public async Task AddPatientWithValidData()
         {
-            try
+            AddPatientRequest patient = new()
             {
-                AddPatientRequest patient = new()
-                {
-                    FirstName = "Pedro",
-                    LastName = "Alves",
-                    Email = "palves@email.com",
-                    Password = "teste123",
-                    Phone = "99999999999",
-                    BirthDate = new DateTime(2000, 04, 19),
-                    CPF = "06017365320",
-                    RG = "0396069620105"
-                };
+                FirstName = "Pedro",
+                LastName = "Alves",
+                Email = "palves@email.com",
+                Password = "teste123",
+                Phone = "99999999999",
+                BirthDate = new DateTime(2000,04,19),
+                CPF = "06017365320",
+                RG = "0396069620105"
+            };
 
-                var result = await patientHandler.Handle(patient, CancellationToken.None);
-                Assert.AreEqual(true, result.Success);
-            }
-            catch (Exception ex)
-            {
-                Debug.Write($"{ex.Message}");
-            }
+            var result = await patientHandler.Handle(patient, CancellationToken.None);
+            Assert.AreEqual(true, result.Success);
         }
 
         [TestMethod]

@@ -5,16 +5,12 @@ using backend.Domain.Commands.Patient.EditPatient;
 using backend.Domain.Commands.Patient.ListAllPatients;
 using backend.Domain.Commands.Patient.ListOnePatient;
 using backend.Domain.Commands.Patient.RemovePatient;
-using backend.Domain.Entities;
-using backend.Domain.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -51,12 +47,11 @@ namespace backend.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Patient>>> GetPatients([FromQuery] PageParameters pageParameters)
+        public async Task<ActionResult> GetPatients()
         {
             try
             {
                 var request = new ListAllPatientsRequest();
-                request.pageParameters = pageParameters;
                 var result = await _mediator.Send(request, CancellationToken.None);
                 return Ok(result);
             }

@@ -1,9 +1,7 @@
 ﻿using backend.Domain.Interfaces.Repositories;
-using backend.Domain.Pagination;
 using MediatR;
 using prmToolkit.NotificationPattern;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,8 +31,7 @@ namespace backend.Domain.Commands.Patient.ListAllPatients
             }
 
             //Lista todos os pacientes
-            //IQueryable<Entities.Patient> patients = _patientRepository.GetPatients(request.pageParameters);
-            var patients = _patientRepository.GetPatients(request.pageParameters);
+            IEnumerable<Entities.Patient> patients = _patientRepository.GetAll();
 
             //Cria o objeto da resposta
             var response = new Response(this, patients);
