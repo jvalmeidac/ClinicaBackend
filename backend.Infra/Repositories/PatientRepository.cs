@@ -24,16 +24,10 @@ namespace backend.Infra.Repositories
 
         public void Add(Patient entity)
         {
-            try
-            {
+            
                 string sql = "INSERT INTO patients VALUES(@PatientId, @FirstName, @LastName," +
                         " @Email, @Password, @Phone, @BirthDate, @CPF, @RG, @CreatedAt)";
                 _session.Connection.Execute(sql, entity, _session.Transaction);
-            }
-            catch (Exception ex)
-            {
-                Debug.Write($"{ex.Message}");
-            }
         }
 
         public Patient Edit(Patient entity)
