@@ -5,12 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="9.0.0" />
-    <PackageReference Include="prmToolkit.NotificationPattern" Version="1.1.3" />
+    <Compile Remove="Entities\Base\**" />
+    <EmbeddedResource Remove="Entities\Base\**" />
+    <None Remove="Entities\Base\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Base\" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="prmToolkit.NotificationPattern" Version="1.1.3" />
   </ItemGroup>
 
 </Project>
