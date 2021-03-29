@@ -1,11 +1,15 @@
 ﻿using backend.Domain.Entities;
 using backend.Domain.Interfaces.Repositories;
+using backend.Domain.Interfaces.Repositories.Base;
+using backend.Domain.Pagination;
 using backend.Infra.Repositories.Base;
 using Dapper;
 using Slapper;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace backend.Infra.Repositories
 {
@@ -20,9 +24,16 @@ namespace backend.Infra.Repositories
 
         public void Add(Patient entity)
         {
-            string sql = "INSERT INTO patients VALUES(@Id, @FirstName, @LastName," +
-                " @Email, @Password, @Phone, @BirthDate, @CPF, @RG, @CreatedAt)";
-            _session.Connection.Execute(sql, entity, _session.Transaction);
+            try
+            {
+                string sql = "INSERT INTO patients VALUES(@PatientId, @FirstName, @LastName," +
+                        " @Email, @Password, @Phone, @BirthDate, @CPF, @RG, @CreatedAt)";
+                _session.Connection.Execute(sql, entity, _session.Transaction);
+            }
+            catch (Exception ex)
+            {
+                Debug.Write($"{ex.Message}");
+            }
         }
 
         public Patient Edit(Patient entity)
@@ -51,21 +62,21 @@ namespace backend.Infra.Repositories
                             "a.PatientId as Appointments_PatientId," +
                             "a.Completed as Appointments_Completed," +
                             "a.Description as Appointments_Description" +
-                            "\nFROM patients p" +
-                            "\nINNER JOIN appointments a ON a.PatientId = p.PatientId";
+                            " FROM patients p" +
+                            " LEFT JOIN appointments a ON a.PatientId = p.PatientId";
+
             var data = _session.Connection.Query<dynamic>(sql);
 
             AutoMapper.Configuration.AddIdentifier(typeof(Patient), "PatientId");
             AutoMapper.Configuration.AddIdentifier(typeof(Appointment), "AppointmentId");
-            List<Patient> patients =
-                AutoMapper.MapDynamic<Patient>(data).ToList();
+            List<Patient> patients = AutoMapper.MapDynamic<Patient>(data).ToList();
 
             return patients;
         }
 
         public Patient GetOne(Guid id)
         {
-            string sql = "SELECT p.PatientId," +
+            string sql = "SELECT p.PatientId, " +
                             "p.FirstName," +
                             "p.LastName," +
                             "p.Email," +
@@ -78,10 +89,10 @@ namespace backend.Infra.Repositories
                             "a.Schedule as Appointments_Schedule," +
                             "a.PatientId as Appointments_PatientId," +
                             "a.Completed as Appointments_Completed," +
-                            "a.Description as Appointments_Description" +
-                            "\nFROM patients p" +
-                            "\nINNER JOIN appointments a ON a.PatientId = p.PatientId" +
-                            $"\nWHERE p.PatientId = '{id}'";
+                            "a.Description as Appointments_Description " +
+                            "FROM patients p" +
+                            " INNER JOIN appointments a ON a.PatientId = p.PatientId " +
+                            $" WHERE p.PatientId = '{id}'";
             var data = _session.Connection.Query<dynamic>(sql).FirstOrDefault();
 
             AutoMapper.Configuration.AddIdentifier(typeof(Patient), "PatientId");
@@ -120,6 +131,37 @@ namespace backend.Infra.Repositories
             var exists = _session.Connection.ExecuteScalar<bool>(sql);
 
             return exists;
+        }
+
+        public IEnumerable<Patient> GetPatients(PageParameters pageParameters)
+        {
+            string sql = "SELECT p.PatientId," +
+                            "p.FirstName," +
+                            "p.LastName," +
+                            "p.Email," +
+                            "p.CPF," +
+                            "p.RG," +
+                            "p.Phone," +
+                            "p.BirthDate," +
+                            "p.CreatedAt," +
+                            "a.AppointmentId as Appointments_AppointmentId," +
+                            "a.Schedule as Appointments_Schedule," +
+                            "a.PatientId as Appointments_PatientId," +
+                            "a.Completed as Appointments_Completed," +
+                            "a.Description as Appointments_Description" +
+                            " FROM patients p" +
+                            " LEFT JOIN appointments a ON a.PatientId = p.PatientId" +
+                            " LIMIT @PageNumber,@PageSize";
+            var data = _session.Connection.Query<dynamic>(sql, new { pageParameters.PageNumber, pageParameters.PageSize });
+
+            AutoMapper.Configuration.AddIdentifier(typeof(Patient), "PatientId");
+            AutoMapper.Configuration.AddIdentifier(typeof(Appointment), "AppointmentId");
+            List<Patient> patients =
+                AutoMapper.MapDynamic<Patient>(data).ToList();
+
+            return patients;
+
+            //return Task.FromResult(PagedList<Patient>.GetPagedList(GetAll().OrderBy(s=> s.PatientId), pageParameters.PageNumber, pageParameters.PageSize));
         }
     }
 }
