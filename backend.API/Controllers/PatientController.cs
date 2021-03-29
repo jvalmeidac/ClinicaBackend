@@ -135,11 +135,11 @@ namespace backend.API.Controllers
                     return Ok(response);
                 }
 
-                return Ok(authenticatedResponse);
+                return NotFound(authenticatedResponse);
             }
             catch (Exception e)
             {
-                return NotFound(e.Message);
+                return BadRequest(e.Message);
             }
         }
 
@@ -181,8 +181,7 @@ namespace backend.API.Controllers
                     created = criationDate.ToString("yyyy-MM-dd HH:mm:ss"),
                     expiration = expirationDate.ToString("yyyy-MM-dd HH:mm:ss"),
                     accessToken = token,
-                    message = "OK",
-                    firstName = response.FirstName
+                    patientId = response.Id
                 };
             }
             else
