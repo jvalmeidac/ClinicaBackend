@@ -21,8 +21,6 @@ namespace backend.Infra.Repositories
 
         public void Add(Patient entity)
         {
-
-            string sql = "INSERT INTO patients VALUES (@PatientId, @FirstName, @LastName, @Email, @Password, @Phone, @BirthDate, @CPF, @RG, @CreatedAt)";
             string sql = "INSERT INTO patients VALUES(@PatientId, @FirstName, @LastName," +
                 " @Email, @Password, @Phone, @BirthDate, @CPF, @RG, @CreatedAt)";
             _session.Connection.Execute(sql, entity, _session.Transaction);
@@ -38,7 +36,7 @@ namespace backend.Infra.Repositories
             return entity;
         }
 
-        public IEnumerable<Patient> GetAll()
+        public IEnumerable<Patient> GetAll(PageParameters pageParameters)
         {
             string sql = "SELECT p.PatientId," +
                             "p.FirstName," +
@@ -55,13 +53,14 @@ namespace backend.Infra.Repositories
                             "a.Completed as Appointments_Completed," +
                             "a.Description as Appointments_Description" +
                             " FROM patients p" +
-                            " LEFT JOIN appointments a ON a.PatientId = p.PatientId";
-
+                            " LEFT JOIN appointments a ON a.PatientId = p.PatientId" +
+                            $" LIMIT {pageParameters.PageNumber},{pageParameters.PageSize}";
             var data = _session.Connection.Query<dynamic>(sql);
 
             AutoMapper.Configuration.AddIdentifier(typeof(Patient), "PatientId");
             AutoMapper.Configuration.AddIdentifier(typeof(Appointment), "AppointmentId");
-            List<Patient> patients = AutoMapper.MapDynamic<Patient>(data).ToList();
+            List<Patient> patients =
+                AutoMapper.MapDynamic<Patient>(data).ToList();
 
             return patients;
         }
@@ -125,35 +124,6 @@ namespace backend.Infra.Repositories
             return exists;
         }
 
-        public IEnumerable<Patient> GetPatients(PageParameters pageParameters)
-        {
-            string sql = "SELECT p.PatientId," +
-                            "p.FirstName," +
-                            "p.LastName," +
-                            "p.Email," +
-                            "p.CPF," +
-                            "p.RG," +
-                            "p.Phone," +
-                            "p.BirthDate," +
-                            "p.CreatedAt," +
-                            "a.AppointmentId as Appointments_AppointmentId," +
-                            "a.Schedule as Appointments_Schedule," +
-                            "a.PatientId as Appointments_PatientId," +
-                            "a.Completed as Appointments_Completed," +
-                            "a.Description as Appointments_Description" +
-                            " FROM patients p" +
-                            " LEFT JOIN appointments a ON a.PatientId = p.PatientId" +
-                            " LIMIT @PageNumber,@PageSize";
-            var data = _session.Connection.Query<dynamic>(sql, new { pageParameters.PageNumber, pageParameters.PageSize });
-
-            AutoMapper.Configuration.AddIdentifier(typeof(Patient), "PatientId");
-            AutoMapper.Configuration.AddIdentifier(typeof(Appointment), "AppointmentId");
-            List<Patient> patients =
-                AutoMapper.MapDynamic<Patient>(data).ToList();
-
-            return patients;
-
-            //return Task.FromResult(PagedList<Patient>.GetPagedList(GetAll().OrderBy(s=> s.PatientId), pageParameters.PageNumber, pageParameters.PageSize));
-        }
+        
     }
 }

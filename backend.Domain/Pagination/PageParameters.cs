@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace backend.Domain.Pagination
+﻿namespace backend.Domain.Pagination
 {
     public class PageParameters
     {
         const int MaxPageSize = 50;
-
         public int PageNumber { get; set; } = 1;
-
         private int _pageSize = 10;
-
         public int PageSize
         {
             get
