@@ -50,10 +50,10 @@ namespace backend.Infra.Repositories
                             "a.AppointmentId as Appointments_AppointmentId," +
                             "a.Schedule as Appointments_Schedule," +
                             "a.PatientId as Appointments_PatientId," +
-                            "a.Completed as Appointments_Completed," +
                             "a.Description as Appointments_Description" +
                             " FROM patients p" +
                             " LEFT JOIN appointments a ON a.PatientId = p.PatientId" +
+                            " ORDER BY p.FirstName " +
                             $" LIMIT {pageParameters.PageNumber},{pageParameters.PageSize}";
             var data = _session.Connection.Query<dynamic>(sql);
 
@@ -79,17 +79,17 @@ namespace backend.Infra.Repositories
                             "a.AppointmentId as Appointments_AppointmentId," +
                             "a.Schedule as Appointments_Schedule," +
                             "a.PatientId as Appointments_PatientId," +
-                            "a.Completed as Appointments_Completed," +
                             "a.Description as Appointments_Description " +
                             "FROM patients p" +
                             " INNER JOIN appointments a ON a.PatientId = p.PatientId " +
                             $" WHERE p.PatientId = '{id}'";
-            var data = _session.Connection.Query<dynamic>(sql).FirstOrDefault();
+
+            var data = _session.Connection.QueryFirstOrDefault<dynamic>(sql);
 
             AutoMapper.Configuration.AddIdentifier(typeof(Patient), "PatientId");
             AutoMapper.Configuration.AddIdentifier(typeof(Appointment), "AppointmentId");
 
-            Patient patient = AutoMapper.Map<Patient>(data);
+            Patient patient = AutoMapper.MapDynamic<Patient>(data);
 
             return patient;
         }
@@ -97,7 +97,7 @@ namespace backend.Infra.Repositories
         public void Remove(Guid id)
         {
             string sql = $"DELETE FROM patients WHERE PatientId = '{id}'";
-            _session.Connection.Execute(sql);
+            _session.Connection.Execute(sql, _session.Transaction);
         }
 
         public Patient Login(string email, string password)

@@ -5,6 +5,10 @@ namespace backend.Domain.Commands.Patient.ListAllPatients
 {
     public class ListAllPatientsRequest : IRequest<Response>
     {
-        public PageParameters pageParameters { get; set; }
+        public ListAllPatientsRequest(PageParameters pageParameters)
+        {
+            PageParameters = pageParameters;
+        }
+        public PageParameters PageParameters { get; private set; }
     }
 }

@@ -2,7 +2,6 @@
 using backend.Domain.Pagination;
 using MediatR;
 using prmToolkit.NotificationPattern;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,11 +31,11 @@ namespace backend.Domain.Commands.Patient.ListAllPatients
             }
 
             //Lista todos os pacientes
-            var patients = _patientRepository.GetAll(request.pageParameters);
+            var patients = _patientRepository.GetAll(request.PageParameters);
             var count = _patientRepository.GetPatientsCount();
             var paginationInfo = 
                 new PagedList<Entities.Patient>(patients, count, 
-                request.pageParameters.PageNumber, request.pageParameters.PageSize);
+                request.PageParameters.PageNumber, request.PageParameters.PageSize);
 
             //Cria o objeto da resposta
             var response = new Response(this, patients, paginationInfo);

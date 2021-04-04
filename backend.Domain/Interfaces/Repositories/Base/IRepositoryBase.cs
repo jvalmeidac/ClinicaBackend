@@ -14,6 +14,6 @@ namespace backend.Domain.Interfaces.Repositories.Base
         void Remove(Guid id);
 
         bool Exists(Guid id);
-        bool Exists(string email, string cpf, string rg);
+        
     }
 }

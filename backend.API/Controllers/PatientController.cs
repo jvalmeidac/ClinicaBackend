@@ -54,8 +54,7 @@ namespace backend.API.Controllers
         {
             try
             {
-                var request = new ListAllPatientsRequest();
-                request.pageParameters = pageParameters;
+                var request = new ListAllPatientsRequest(pageParameters);
                 var result = await _mediator.Send(request, CancellationToken.None);
                 return Ok(result);
             }
@@ -135,7 +134,7 @@ namespace backend.API.Controllers
                     return Ok(response);
                 }
 
-                return NotFound(authenticatedResponse);
+                return Ok(authenticatedResponse);
             }
             catch (Exception e)
             {
@@ -155,7 +154,7 @@ namespace backend.API.Controllers
                     new[]
                     {
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                        new Claim("Paciente", JsonConvert.SerializeObject(response))
+                        new Claim("Patient", JsonConvert.SerializeObject(response))
                     }
                 );
 
@@ -181,7 +180,7 @@ namespace backend.API.Controllers
                     created = criationDate.ToString("yyyy-MM-dd HH:mm:ss"),
                     expiration = expirationDate.ToString("yyyy-MM-dd HH:mm:ss"),
                     accessToken = token,
-                    patientId = response.Id
+                    firstName = response.FirstName
                 };
             }
             else

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace backend.Domain.Pagination
 {
@@ -17,7 +16,7 @@ namespace backend.Domain.Pagination
         {
             TotalCount = count;
             PageSize = pageSize;
-            CurrentPage = pageNumber;
+            CurrentPage = (pageNumber / PageSize) + 1;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             AddRange(items);
         }

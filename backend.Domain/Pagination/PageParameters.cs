@@ -2,9 +2,10 @@
 {
     public class PageParameters
     {
+        private int _pageSize = 50;
+        private int _pageNumber = 0;
         const int MaxPageSize = 50;
-        public int PageNumber { get; set; } = 1;
-        private int _pageSize = 10;
+
         public int PageSize
         {
             get
@@ -14,6 +15,18 @@
             set
             {
                 _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
+            }
+        }
+        
+        public int PageNumber
+        {
+            get
+            {
+                return _pageNumber;
+            }
+            set
+            {
+                _pageNumber = (value == 1) ? 0 : (value - 1) * PageSize;
             }
         }
     }

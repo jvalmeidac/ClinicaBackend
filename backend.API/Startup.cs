@@ -38,6 +38,7 @@ namespace backend.API
             services.AddScoped<DbSession>();
             services.AddScoped<IUnityOfWork, UnityOfWork>();
             services.AddTransient<IPatientRepository, PatientRepository>();
+            services.AddTransient<IAppointmentRepository, AppointmentRepository>();
 
             //Configuração JWT
             var signingConfigurations = new SigningConfigurations();
