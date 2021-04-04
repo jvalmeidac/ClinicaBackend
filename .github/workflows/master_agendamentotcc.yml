@@ -22,7 +22,18 @@ jobs:
         dotnet-version: '5.0.x'
 
     - name: Build with dotnet
-      run: dotnet build --configuration Release
-
-    - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      run: dotnet build --configuration 
+      
+    - name: Generate deployment package
+      run: zip -r deploy.zip . -x '*.git*'  
+      
+    - name: Deploy to EB
+      uses: einaregilsson/beanstalk-deploy@v16
+      with:
+        aws_access_key: AKIA52242OYR5KA2Y24E
+        aws_secret_key: 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
+        application_name: backendAPI
+        environment_name: Backendapi-env
+        version_label: 12345
+        region: sa-east-1
+        deployment_package: deploy.zip
