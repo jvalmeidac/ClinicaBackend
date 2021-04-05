@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -91,12 +92,27 @@ namespace backend.API
                     .RequireAuthenticatedUser().Build();
 
                 config.Filters.Add(new AuthorizeFilter(policy));
-            }).AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling 
+            }).AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling
                 = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend.API", Version = "v1" });
+            });
+
+            services.AddHsts(options =>
+            {
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(60);
+                options.ExcludedHosts.Add("example.com");
+                options.ExcludedHosts.Add("www.example.com");
+            });
+
+            services.AddHttpsRedirection(options =>
+            {
+                options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+                options.HttpsPort = 5001;
             });
         }
 
@@ -109,9 +125,14 @@ namespace backend.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "backend.API v1"));
             }
+            else
+            {
+                app.UseHsts();
+            }
 
             //Permissão CORS
-            app.UseCors(x => {
+            app.UseCors(x =>
+            {
                 x.AllowAnyHeader();
                 x.AllowAnyMethod();
                 x.AllowAnyOrigin();
