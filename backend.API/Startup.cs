@@ -99,21 +99,6 @@ namespace backend.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend.API", Version = "v1" });
             });
-
-            services.AddHsts(options =>
-            {
-                options.Preload = true;
-                options.IncludeSubDomains = true;
-                options.MaxAge = TimeSpan.FromDays(60);
-                options.ExcludedHosts.Add("example.com");
-                options.ExcludedHosts.Add("www.example.com");
-            });
-
-            services.AddHttpsRedirection(options =>
-            {
-                options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
-                options.HttpsPort = 5001;
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -124,10 +109,6 @@ namespace backend.API
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "backend.API v1"));
-            }
-            else
-            {
-                app.UseHsts();
             }
 
             //Permissão CORS
