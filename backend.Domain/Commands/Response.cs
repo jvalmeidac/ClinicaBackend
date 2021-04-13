@@ -28,7 +28,8 @@ namespace backend.Domain.Commands
                 TotalPages = paginationInfo.TotalPages,
                 CurrentPage = paginationInfo.CurrentPage,
                 HasNext = paginationInfo.HasNext,
-                HasPrevious = paginationInfo.HasPrevious
+                HasPrevious = paginationInfo.HasPrevious,
+                PageSize = paginationInfo.PageSize
             };
         }
 

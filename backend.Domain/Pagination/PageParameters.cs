@@ -4,7 +4,6 @@
     {
         private int _pageSize = 10;
         private int _pageNumber = 0;
-        const int MaxPageSize = 10;
 
         public int PageSize
         {
@@ -12,12 +11,8 @@
             {
                 return _pageSize;
             }
-            set
-            {
-                _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
-            }
         }
-        
+
         public int PageNumber
         {
             get

@@ -28,7 +28,7 @@ namespace backend.Infra.Repositories
         public List<Appointment> GetAppointmentsByPatientId(Guid id, PageParameters pageParameters)
         {
             string sql = $"SELECT * FROM appointments WHERE PatientId = '{id}' ORDER BY Schedule" +
-                $" LIMIT {pageParameters.PageNumber}, {pageParameters.PageSize}";
+                $" LIMIT {pageParameters.PageNumber}, 10";
             List<Appointment> appointments = _session.Connection.Query<Appointment>(sql).ToList();
 
             return appointments;
