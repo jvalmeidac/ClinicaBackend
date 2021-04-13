@@ -1,4 +1,4 @@
-﻿using backend.Domain.Commands.Patient.Base;
+﻿using backend.Domain.Commands.Base;
 using MediatR;
 using System;
 
@@ -6,6 +6,10 @@ namespace backend.Domain.Commands.Patient.EditPatient
 {
     public class EditPatientRequest : RequestBase, IRequest<Response>
     {
+        public EditPatientRequest(Guid id) : base(id)
+        {
+        }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

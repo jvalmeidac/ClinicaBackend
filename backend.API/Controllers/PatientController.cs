@@ -82,11 +82,11 @@ namespace backend.API.Controllers
 
         [HttpPut("{id:Guid}")]
         public async Task<ActionResult> EditPatient(Guid id,
-            [FromBody] EditPatientRequest request)
+            [FromBody] EditPatientRequest body)
         {
             try
             {
-                request.Id = id;
+                EditPatientRequest request = new(id);
                 var result = await _mediator.Send(request, CancellationToken.None);
 
                 return Ok(request);

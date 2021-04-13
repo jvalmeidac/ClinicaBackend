@@ -27,7 +27,7 @@ namespace backend.Tests.Commands.PatientCommandsTest
         [TestMethod]
         public async Task EditPatientWithValidData()
         {
-            EditPatientRequest patient = new()
+            EditPatientRequest patient = new(Guid.Parse("97627c60-95f8-4701-ac59-9eb00c71e3c9"))
             {
                 FirstName = "Pedro",
                 LastName = "Alves",
@@ -39,7 +39,6 @@ namespace backend.Tests.Commands.PatientCommandsTest
                 RG = "0396069620105"
             };
 
-            patient.Id = Guid.NewGuid();
 
             var result = await editPatientHandler.Handle(patient, CancellationToken.None);
             Assert.IsTrue(result.Success);
@@ -48,7 +47,7 @@ namespace backend.Tests.Commands.PatientCommandsTest
         [TestMethod]
         public async Task EditPatientWithInvalidData()
         {
-            EditPatientRequest patient = new()
+            EditPatientRequest patient = new(Guid.Empty)
             {
                 FirstName = "Pedro",
                 LastName = "Alves",
@@ -59,8 +58,6 @@ namespace backend.Tests.Commands.PatientCommandsTest
                 CPF = "06017365320",
                 RG = "0396069620105"
             };
-
-            patient.Id = Guid.Empty;
 
             var result = await editPatientHandler.Handle(patient, CancellationToken.None);
             Assert.IsFalse(result.Success);

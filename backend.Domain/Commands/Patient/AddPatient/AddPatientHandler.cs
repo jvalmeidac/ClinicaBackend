@@ -1,8 +1,8 @@
-﻿using backend.Domain.Interfaces.Repositories;
+﻿using backend.Domain.Extensions;
+using backend.Domain.Interfaces.Repositories;
 using backend.Domain.Interfaces.Repositories.Base;
 using MediatR;
 using prmToolkit.NotificationPattern;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,6 +28,13 @@ namespace backend.Domain.Commands.Patient.AddPatient
             if (request == null)
             {
                 AddNotification("Request", "A requisição é inválida!");
+                return new Response(this);
+            }
+
+            //Verifica se o CPF inserido é válido
+            if (!request.CPF.IsValidCpf())
+            {
+                AddNotification("CPF", "CPF Inválido, por favor insira um válido!");
                 return new Response(this);
             }
 

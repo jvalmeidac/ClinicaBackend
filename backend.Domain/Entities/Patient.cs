@@ -21,6 +21,7 @@ namespace backend.Domain.Entities
             RG = rg;
             CreatedAt = DateTime.Now;
 
+            //Criptografa a senha do usuário
             if (!string.IsNullOrWhiteSpace(Password))
             {
                 Password = Password.Encrypt();

@@ -1,6 +1,9 @@
 ﻿using backend.Domain.Interfaces.Repositories;
+using backend.Domain.Pagination;
 using MediatR;
 using prmToolkit.NotificationPattern;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +19,8 @@ namespace backend.Domain.Commands.Appointment.ListAppointmentsByPatientId
             _appointmentRepository = appointmentRepository;
         }
 
-        public async Task<Response> Handle(ListAppointmentsByPatientIdRequest request, CancellationToken cancellationToken)
+        public async Task<Response> Handle(ListAppointmentsByPatientIdRequest request, 
+            CancellationToken cancellationToken)
         {
             if(request == null)
             {
@@ -24,9 +28,14 @@ namespace backend.Domain.Commands.Appointment.ListAppointmentsByPatientId
                 return new Response(this);
             }
 
-            var appointments = _appointmentRepository.GetAppointmentsByPatientId(request.PatientId);
+            List<Entities.Appointment> appointments = 
+                _appointmentRepository.GetAppointmentsByPatientId(request.PatientId, request.PageParameters).ToList();
+            int count = 
+                _appointmentRepository.GetAppointmentsCount(request.PatientId);
+            var paginationInfo = new PagedList<Entities.Appointment>
+                (appointments, count, request.PageParameters.PageNumber, request.PageParameters.PageSize);
 
-            var response = new Response(this, appointments);
+            var response = new Response(this, appointments, paginationInfo);
 
             return await Task.FromResult(response);
         }

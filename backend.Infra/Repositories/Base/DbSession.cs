@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System;
 using System.Data;
 
@@ -6,13 +7,16 @@ namespace backend.Infra.Repositories.Base
 {
     public sealed class DbSession : IDisposable
     {
+        private IConfiguration _configuration;
         public IDbConnection Connection { get; }
         public IDbTransaction Transaction { get; set; }
 
-        public DbSession()
+        public DbSession(IConfiguration configuration)
         {
+            _configuration = configuration;
+
             Connection = new MySqlConnection(
-                    "Server=projetotcc.csep8uv6hcgw.sa-east-1.rds.amazonaws.com;Database=projetotcc;Uid=admin;Pwd=r4ieqspFYfneYT0KF2cK; convert zero datetime=True;"
+                    _configuration.GetConnectionString("MySQLString")
                 );
             Connection.Open();
         }

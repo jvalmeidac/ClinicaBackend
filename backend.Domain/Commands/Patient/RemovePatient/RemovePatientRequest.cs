@@ -1,4 +1,4 @@
-﻿using backend.Domain.Commands.Patient.Base;
+﻿using backend.Domain.Commands.Base;
 using MediatR;
 using System;
 

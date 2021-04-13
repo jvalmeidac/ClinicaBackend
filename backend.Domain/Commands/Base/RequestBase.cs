@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace backend.Domain.Commands.Patient.Base
+namespace backend.Domain.Commands.Base
 {
     public class RequestBase: IRequest<Response>
     {
@@ -14,6 +14,6 @@ namespace backend.Domain.Commands.Patient.Base
         {
 
         }
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
     }
 }

@@ -25,9 +25,10 @@ namespace backend.Infra.Repositories
             _session.Connection.Execute(sql, entity, _session.Transaction);
         }
 
-        public IEnumerable<Appointment> GetAppointmentsByPatientId(Guid id)
+        public List<Appointment> GetAppointmentsByPatientId(Guid id, PageParameters pageParameters)
         {
-            string sql = $"SELECT * FROM appointments WHERE PatientId = '{id}' ORDER BY Schedule";
+            string sql = $"SELECT * FROM appointments WHERE PatientId = '{id}' ORDER BY Schedule" +
+                $" LIMIT {pageParameters.PageNumber}, {pageParameters.PageSize}";
             List<Appointment> appointments = _session.Connection.Query<Appointment>(sql).ToList();
 
             return appointments;
@@ -63,6 +64,14 @@ namespace backend.Infra.Repositories
         {
             string sql = $"DELETE FROM appoitments WHERE AppointmentId = '{id}'";
             _session.Connection.Execute(sql, _session.Transaction);
+        }
+
+        public int GetAppointmentsCount(Guid id)
+        {
+            string sql = $"SELECT COUNT(*) FROM appointments WHERE PatientId = '{id}'";
+            int count = _session.Connection.ExecuteScalar<int>(sql);
+
+            return count;
         }
     }
 }

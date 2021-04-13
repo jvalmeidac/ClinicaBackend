@@ -14,6 +14,9 @@ namespace backend.Domain.Entities
             PatientId = patientId.ToString();
             AppointmentType = appointmentType;
             AppointmentStatus = AppointmentStatus.Scheduled;
+
+            new AddNotifications<Appointment>(this)
+                .IfGreaterThan(Schedule, DateTime.Now, "Data indisponível, informe uma data futura!");
         }
 
         public Appointment() { }
@@ -26,7 +29,7 @@ namespace backend.Domain.Entities
         public AppointmentStatus AppointmentStatus { get; private set; }
 
         public Patient Patient { get; set; }
-        public Operator Operator { get; set; }
+        public Academic Operator { get; set; }
 
         public void AddDescription(string description)
         {

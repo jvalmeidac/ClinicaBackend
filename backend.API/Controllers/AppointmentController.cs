@@ -1,5 +1,6 @@
 ﻿using backend.Domain.Commands.Appointment.AddAppointment;
 using backend.Domain.Commands.Appointment.ListAppointmentsByPatientId;
+using backend.Domain.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,6 @@ namespace backend.API.Controllers
 
         
         [HttpPost]
-        [AllowAnonymous]
         public async Task<ActionResult> AddAppointment([FromBody] AddAppointmentRequest request)
         {
             try
@@ -36,12 +36,14 @@ namespace backend.API.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult> GetAppointmentsByPatientId(Guid id)
+        public async Task<ActionResult> GetAppointmentsByPatientId(Guid id, 
+            [FromQuery] PageParameters pageParameters)
         {
             try
             {
-                ListAppointmentsByPatientIdRequest request = new(id);
+                ListAppointmentsByPatientIdRequest request = new(id, pageParameters);
                 var result = await _mediator.Send(request, CancellationToken.None);
 
                 return Ok(result);

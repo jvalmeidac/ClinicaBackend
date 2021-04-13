@@ -1,5 +1,4 @@
-﻿using backend.Domain.Commands.Patient.Base;
-using backend.Domain.Interfaces.Repositories;
+﻿using backend.Domain.Interfaces.Repositories;
 using MediatR;
 using prmToolkit.NotificationPattern;
 using System.Threading;

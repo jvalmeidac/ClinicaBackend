@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,6 +39,7 @@ namespace backend.API
             services.AddScoped<IUnityOfWork, UnityOfWork>();
             services.AddTransient<IPatientRepository, PatientRepository>();
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
+            services.AddTransient<IAcademicRepository, AcademicRepository>();
 
             //Configuração JWT
             var signingConfigurations = new SigningConfigurations();
