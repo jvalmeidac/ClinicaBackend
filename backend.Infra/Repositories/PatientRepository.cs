@@ -67,29 +67,8 @@ namespace backend.Infra.Repositories
 
         public Patient GetOne(Guid id)
         {
-            string sql = "SELECT p.PatientId, " +
-                            "p.FirstName," +
-                            "p.LastName," +
-                            "p.Email," +
-                            "p.CPF," +
-                            "p.RG," +
-                            "p.Phone," +
-                            "p.BirthDate," +
-                            "p.CreatedAt," +
-                            "a.AppointmentId as Appointments_AppointmentId," +
-                            "a.Schedule as Appointments_Schedule," +
-                            "a.PatientId as Appointments_PatientId," +
-                            "a.Description as Appointments_Description " +
-                            "FROM patients p" +
-                            " INNER JOIN appointments a ON a.PatientId = p.PatientId " +
-                            $" WHERE p.PatientId = '{id}'";
-
-            var data = _session.Connection.QueryFirstOrDefault<dynamic>(sql);
-
-            AutoMapper.Configuration.AddIdentifier(typeof(Patient), "PatientId");
-            AutoMapper.Configuration.AddIdentifier(typeof(Appointment), "AppointmentId");
-
-            Patient patient = AutoMapper.MapDynamic<Patient>(data);
+            string sql = $"SELECT * FROM patients WHERE PatientId = '{id}'";
+            Patient patient = _session.Connection.QueryFirstOrDefault<Patient>(sql);
 
             return patient;
         }

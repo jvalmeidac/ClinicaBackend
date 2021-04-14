@@ -119,7 +119,6 @@ namespace backend.API
                 x.AllowAnyOrigin();
             });
 
-
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -14,25 +14,27 @@
             cpf = cpf.Trim();
             cpf = cpf.Replace(".", "").Replace("-", "");
 
-            if (cpf.Length != 11) return false;
+            if (cpf.Length != 11)
+                return false;
 
             tempCpf = cpf.Substring(0, 9);
             sum = 0;
-            
-            for(int i = 0; i< 9; i++)
+
+            for (int i = 0; i < 9; i++)
                 sum += int.Parse(tempCpf[i].ToString()) * multiplier1[i];
 
             rest = sum % 11;
-            if (rest > 2)
+            if (rest < 2)
                 rest = 0;
             else
                 rest = 11 - rest;
 
             digit = rest.ToString();
-            tempCpf += digit;
-            sum = 0;
 
-            for (int i = 0; i < 11; i++)
+            tempCpf += digit;
+
+            sum = 0;
+            for (int i = 0; i < 10; i++)
                 sum += int.Parse(tempCpf[i].ToString()) * multiplier2[i];
 
             rest = sum % 11;

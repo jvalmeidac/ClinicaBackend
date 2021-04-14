@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace backend.Domain.Commands.Appointment.ListAppointmentsByPatientId
 {
-    class ListAppointmentsByPatientIdHandler : Notifiable, 
+    public class ListAppointmentsByPatientIdHandler : Notifiable, 
         IRequestHandler<ListAppointmentsByPatientIdRequest, Response>
     {
         private readonly IAppointmentRepository _appointmentRepository;
