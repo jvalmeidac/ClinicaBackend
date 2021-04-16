@@ -22,7 +22,8 @@ namespace backend.Infra.Repositories
         public void Add(Patient entity)
         {
             string sql = "INSERT INTO patients VALUES(@PatientId, @FirstName, @LastName," +
-                " @Email, @Password, @Phone, @BirthDate, @CPF, @RG, @CreatedAt)";
+                " @Email, @Password, @Phone, @BirthDate, @CPF, @RG, @CEP, @Address, @District, " +
+                "@Complement, @City, @State, @CreatedAt)";
             _session.Connection.Execute(sql, entity, _session.Transaction);
         }
 
@@ -30,7 +31,9 @@ namespace backend.Infra.Repositories
         {
             string sql = "UPDATE patients SET FirstName = @FirstName, LastName = @LastName, " +
                 "Email = @Email, Password = @Password, " +
-                $"Phone = @Phone, BirthDate = @BirthDate, CPF = @CPF, RG = @RG WHERE PatientId = '{entity.PatientId}'";
+                $"Phone = @Phone, BirthDate = @BirthDate, CPF = @CPF, RG = @RG, @CEP = CEP " +
+                $"@Address = Address, @District = District, @Complement = Complement, @City = City, @State = State" +
+                $" WHERE PatientId = '{entity.PatientId}'";
             _session.Connection.Execute(sql, entity, _session.Transaction);
 
             return entity;

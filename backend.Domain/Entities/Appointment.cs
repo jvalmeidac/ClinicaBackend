@@ -13,10 +13,11 @@ namespace backend.Domain.Entities
             Schedule = schedule;
             PatientId = patientId.ToString();
             AppointmentType = appointmentType;
-            AppointmentStatus = AppointmentStatus.Scheduled;
+            AppointmentStatus = AppointmentStatus.Scheduled; 
+            AcademicId = null;
 
             new AddNotifications<Appointment>(this)
-                .IfGreaterThan(Schedule, DateTime.Now, "Data indisponível, informe uma data futura!");
+                .IfLowerThan(Schedule, DateTime.Now, "Data inválida", "Informe uma data futura!") ;
         }
 
         public Appointment() { }
@@ -25,6 +26,7 @@ namespace backend.Domain.Entities
         public string Description { get; private set; }
         public DateTime Schedule { get; private set; }
         public string PatientId { get; private set; }
+        public string AcademicId { get; private set; }
         public AppointmentType AppointmentType { get; private set; }
         public AppointmentStatus AppointmentStatus { get; private set; }
 

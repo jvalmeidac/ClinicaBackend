@@ -13,5 +13,11 @@ namespace backend.Domain.Commands.Patient.AddPatient
         public DateTime BirthDate { get; set; }
         public string CPF { get; set; }
         public string RG { get; set; }
+        public string CEP { get; set; }
+        public string Address { get; set; }
+        public string District { get; set; }
+        public string Complement { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
     }
 }

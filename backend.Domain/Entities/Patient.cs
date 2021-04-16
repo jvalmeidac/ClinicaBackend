@@ -8,7 +8,8 @@ namespace backend.Domain.Entities
     public class Patient : Notifiable
     {
         public Patient(string firstName, string lastName, string email, 
-            string password, string phone, DateTime birthDate, string cpf, string rg)
+            string password, string phone, DateTime birthDate, string cpf, string rg, string cep,
+            string address, string district, string complement, string city, string state)
         {
             PatientId = Guid.NewGuid().ToString();
             FirstName = firstName;
@@ -19,6 +20,12 @@ namespace backend.Domain.Entities
             BirthDate = birthDate.Date;
             CPF = cpf;
             RG = rg;
+            CEP = cep;
+            Address = address;
+            District = district;
+            Complement = complement;
+            City = city;
+            State = state;     
             CreatedAt = DateTime.Now;
 
             //Criptografa a senha do usuário
@@ -51,12 +58,19 @@ namespace backend.Domain.Entities
         public DateTime BirthDate { get; private set; }
         public string CPF { get; private set; }
         public string RG { get; private set; }
+        public string CEP { get; private set; }
+        public string Address { get; private set; }
+        public string District { get; private set; }
+        public string Complement { get; private set; }
+        public string City { get; private set; }
+        public string State { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
         public List<Appointment> Appointments { get; set; }
 
         public void EditPatient(string firstName, string lastName, string email, 
-            string password, string phone, DateTime birthDate, string cpf, string rg)
+            string password, string phone, DateTime birthDate, string cpf, string rg, string cep,
+            string address, string district, string complement, string city, string state)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -66,6 +80,12 @@ namespace backend.Domain.Entities
             BirthDate = birthDate;
             CPF = cpf;
             RG = rg;
+            CEP = cep;
+            Address = address;
+            District = district;
+            Complement = complement;
+            City = city;
+            State = state;
         }
     }
 }

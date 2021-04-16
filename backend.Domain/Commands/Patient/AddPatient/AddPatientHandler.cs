@@ -47,7 +47,8 @@ namespace backend.Domain.Commands.Patient.AddPatient
 
             //Instancia o paciente e verifica se existe algum dado inválido
             Entities.Patient patient = new(request.FirstName, request.LastName,
-                request.Email, request.Password, request.Phone, request.BirthDate, request.CPF, request.RG);
+                request.Email, request.Password, request.Phone, request.BirthDate, request.CPF, request.RG,
+                request.CEP, request.Address, request.District, request.Complement, request.City, request.State) ;
             AddNotifications(patient);
 
             if (IsInvalid())

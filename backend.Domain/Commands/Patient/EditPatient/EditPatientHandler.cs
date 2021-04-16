@@ -38,7 +38,8 @@ namespace backend.Domain.Commands.Patient.EditPatient
 
             Entities.Patient patient = _patientRepository.GetOne(request.Id);
             patient.EditPatient(request.FirstName, request.LastName, request.Email,
-                request.Password, request.Phone, request.BirthDate, request.CPF, request.RG);
+                request.Password, request.Phone, request.BirthDate, request.CPF, request.RG, request.CEP,
+                request.Address, request.District, request.Complement, request.City, request.State);
 
             //Valida a requisição
             if (IsInvalid())

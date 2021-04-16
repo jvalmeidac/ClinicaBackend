@@ -80,13 +80,13 @@ namespace backend.API.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPut("{id:Guid}")]
-        public async Task<ActionResult> EditPatient(Guid id,
-            [FromBody] EditPatientRequest body)
+        public async Task<ActionResult> EditPatient(Guid id, [FromBody] EditPatientRequest request)
         {
             try
             {
-                EditPatientRequest request = new(id);
+                request.Id = id;
                 var result = await _mediator.Send(request, CancellationToken.None);
 
                 return Ok(request);

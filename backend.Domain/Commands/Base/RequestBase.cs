@@ -14,6 +14,7 @@ namespace backend.Domain.Commands.Base
         {
 
         }
-        public Guid Id { get; private set; }
+
+        public Guid Id { get; set; }
     }
 }

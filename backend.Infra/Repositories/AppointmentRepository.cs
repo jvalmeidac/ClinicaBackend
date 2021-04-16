@@ -21,7 +21,7 @@ namespace backend.Infra.Repositories
         public void Add(Appointment entity)
         {
             string sql = "INSERT INTO appointments VALUES(@AppointmentId, @Description, @Schedule, " +
-                "@PatientId, @AppointmentType, @AppointmentStatus)";
+                "@PatientId, @AppointmentType, @AppointmentStatus, @AcademicId)";
             _session.Connection.Execute(sql, entity, _session.Transaction);
         }
 
