@@ -89,7 +89,7 @@ namespace backend.API.Controllers
                 request.Id = id;
                 var result = await _mediator.Send(request, CancellationToken.None);
 
-                return Ok(request);
+                return Ok(result);
             }
             catch (Exception e)
             {
@@ -141,6 +141,13 @@ namespace backend.API.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        //[HttpPatch("{id:Guid}")]
+        //[Route("password")]
+        //public async Task<ActionResult> SwitchPassword(Guid id, [FromBody] Delta<EditPatientRequest> request)
+        //{
+
+        //}
 
         private object GenerateToken(
             AuthenticatePatientResponse response,

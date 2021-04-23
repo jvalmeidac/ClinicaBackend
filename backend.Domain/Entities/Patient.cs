@@ -75,7 +75,7 @@ namespace backend.Domain.Entities
             FirstName = firstName;
             LastName = lastName;
             Email = email;
-            Password = password.Encrypt();
+            Password = password;
             Phone = phone;
             BirthDate = birthDate;
             CPF = cpf;

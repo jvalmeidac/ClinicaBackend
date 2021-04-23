@@ -5,6 +5,7 @@ namespace backend.Domain.Commands
 {
     public class Response
     {
+        private object _pagination;
         public Response(INotifiable notifiable)
         {
             Success = notifiable.IsValid();
@@ -36,6 +37,15 @@ namespace backend.Domain.Commands
         public IEnumerable<Notification> Notifications { get; set; }
         public bool Success { get; set; }
         public object Data { get; set; }
-        public object Pagination { get; set; }
+        public object Pagination {
+            get
+            {
+                return _pagination ?? "No pagination avaliable";
+            }
+            set
+            {
+                _pagination = value;
+            }
+        }
     }
 }

@@ -40,6 +40,7 @@ namespace backend.API
             services.AddTransient<IPatientRepository, PatientRepository>();
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
             services.AddTransient<IAcademicRepository, AcademicRepository>();
+            services.AddTransient<ISubjectRepository, SubjectRepository>();
 
             //Configuração JWT
             var signingConfigurations = new SigningConfigurations();

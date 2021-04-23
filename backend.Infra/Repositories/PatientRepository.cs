@@ -31,8 +31,8 @@ namespace backend.Infra.Repositories
         {
             string sql = "UPDATE patients SET FirstName = @FirstName, LastName = @LastName, " +
                 "Email = @Email, Password = @Password, " +
-                $"Phone = @Phone, BirthDate = @BirthDate, CPF = @CPF, RG = @RG, @CEP = CEP " +
-                $"@Address = Address, @District = District, @Complement = Complement, @City = City, @State = State" +
+                $"Phone = @Phone, BirthDate = @BirthDate, CPF = @CPF, RG = @RG, CEP = @CEP, " +
+                $"Address = @Address, District = @District, Complement = @Complement, City = @City, State = @State" +
                 $" WHERE PatientId = '{entity.PatientId}'";
             _session.Connection.Execute(sql, entity, _session.Transaction);
 
