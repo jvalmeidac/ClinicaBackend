@@ -27,8 +27,9 @@ namespace backend.Tests.Commands.PatientCommandsTest
         [TestMethod]
         public async Task EditPatientWithValidData()
         {
-            EditPatientRequest patient = new(Guid.Parse("97627c60-95f8-4701-ac59-9eb00c71e3c9"))
+            EditPatientRequest patient = new()
             {
+                Id= Guid.Parse("97627c60-95f8-4701-ac59-9eb00c71e3c9"),
                 FirstName = "Pedro",
                 LastName = "Alves",
                 Email = "palves@email.com",
@@ -36,7 +37,13 @@ namespace backend.Tests.Commands.PatientCommandsTest
                 Phone = "99999999999",
                 BirthDate = new DateTime(2000, 04, 19),
                 CPF = "06017365320",
-                RG = "0396069620105"
+                RG = "0396069620105",
+                CEP = "65980000",
+                Address = "Rua do Petroleo",
+                District = "Centro",
+                Complement = null,
+                City = "Carolina",
+                State = "MA"
             };
 
 
@@ -47,8 +54,9 @@ namespace backend.Tests.Commands.PatientCommandsTest
         [TestMethod]
         public async Task EditPatientWithInvalidData()
         {
-            EditPatientRequest patient = new(Guid.Empty)
+            EditPatientRequest patient = new()
             {
+                Id = Guid.Empty,
                 FirstName = "Pedro",
                 LastName = "Alves",
                 Email = "palves@email.com",
@@ -56,7 +64,13 @@ namespace backend.Tests.Commands.PatientCommandsTest
                 Phone = "99999999999",
                 BirthDate = new DateTime(2000, 04, 19),
                 CPF = "06017365320",
-                RG = "0396069620105"
+                RG = "0396069620105",
+                CEP = "65980000",
+                Address = "Rua do Petroleo",
+                District = "Centro",
+                Complement = null,
+                City = "Carolina",
+                State = "MA"
             };
 
             var result = await editPatientHandler.Handle(patient, CancellationToken.None);
