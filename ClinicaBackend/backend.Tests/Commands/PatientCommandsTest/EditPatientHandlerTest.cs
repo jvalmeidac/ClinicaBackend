@@ -1,6 +1,5 @@
 ﻿using backend.Domain.Commands.Patient.EditPatient;
 using backend.Domain.Interfaces.Repositories;
-using backend.Domain.Interfaces.Repositories.Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -14,14 +13,12 @@ namespace backend.Tests.Commands.PatientCommandsTest
     {
         EditPatientHandler editPatientHandler;
         Mock<IPatientRepository> patientRepositoryMock;
-        Mock<IUnityOfWork> unityOfWork;
 
         [TestInitialize]
         public void Init()
         {
             patientRepositoryMock = new Mock<IPatientRepository>();
-            unityOfWork = new Mock<IUnityOfWork>();
-            editPatientHandler = new EditPatientHandler(patientRepositoryMock.Object, unityOfWork.Object);
+            editPatientHandler = new EditPatientHandler(patientRepositoryMock.Object);
         }
 
         [TestMethod]
@@ -29,7 +26,7 @@ namespace backend.Tests.Commands.PatientCommandsTest
         {
             EditPatientRequest patient = new()
             {
-                Id= Guid.Parse("97627c60-95f8-4701-ac59-9eb00c71e3c9"),
+                Id = Guid.Parse("97627c60-95f8-4701-ac59-9eb00c71e3c9"),
                 FirstName = "Pedro",
                 LastName = "Alves",
                 Email = "palves@email.com",

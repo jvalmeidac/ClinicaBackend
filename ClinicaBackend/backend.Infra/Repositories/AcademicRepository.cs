@@ -5,6 +5,7 @@ using backend.Infra.Repositories.Base;
 using Dapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace backend.Infra.Repositories
 {
@@ -69,6 +70,30 @@ namespace backend.Infra.Repositories
             int count = _session.Connection.ExecuteScalar<int>(sql);
 
             return count;
+        }
+
+        public Academic Login(string email, string password)
+        {
+            string sql = $"SELECT * FROM academics WHERE Email='{email}' AND Password='{password}'";
+            Academic academic = _session.Connection.QueryFirstOrDefault<Academic>(sql);
+
+            return academic;
+        }
+
+        public List<Appointment> GetAppointmentsOpened()
+        {
+            string sql = $"SELECT * FROM appointments WHERE AcademicId IS NULL;";
+            List<Appointment> appointments = _session.Connection.Query<Appointment>(sql).ToList();
+
+            return appointments;
+        }
+
+        public List<Appointment> GetAppointmentsClosed(Guid academicId)
+        {
+            string sql = $"SELECT * FROM appointments WHERE AcademicId = '{academicId}'";
+            List<Appointment> appointments = _session.Connection.Query<Appointment>(sql).ToList();
+
+            return appointments;
         }
     }
 }

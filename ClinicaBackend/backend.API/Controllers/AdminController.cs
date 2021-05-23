@@ -1,9 +1,13 @@
 ﻿using backend.API.Security;
+using backend.Domain.Commands.Admin.DelegateAcademic;
+using backend.Domain.Interfaces.Repositories.Base;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace backend.API.Controllers
@@ -12,10 +16,36 @@ namespace backend.API.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
+        private readonly IMediator _mediator;
+        private readonly IUnityOfWork _unityOfWork;
+
+        public AdminController(IMediator mediator, IUnityOfWork unityOfWork)
+        {
+            _mediator = mediator;
+            _unityOfWork = unityOfWork;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DelegateAcademic([FromBody]DelegateAcademicRequest request)
+        {
+            _unityOfWork.BeginTransaction();
+            try
+            {
+                var result = await _mediator.Send(request, CancellationToken.None);
+                _unityOfWork.Commit();
+                return Created("", result);
+            }
+            catch(Exception e)
+            {
+                _unityOfWork.Rollback();
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPost]
         [Route("auth")]
         [AllowAnonymous]
-        public async Task<ActionResult> LoginAdmin(dynamic login,
+        public IActionResult LoginAdmin(dynamic login,
             [FromServices] SigningConfigurations signingConfigurations,
             [FromServices] TokenConfigurations tokenConfigurations)
         {

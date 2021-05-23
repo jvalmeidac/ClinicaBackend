@@ -31,7 +31,7 @@ namespace backend.Domain.Commands.Patient.AuthenticatePatient
 
             if (patient == null)
             {
-                AddNotification("Paciente", "Paciente não encontrado!");
+                AddNotification("Autenticação", "Email ou senha inválidos!");
                 return new AuthenticatePatientResponse
                 {
                     Authenticated = false
